@@ -10,7 +10,7 @@ public class CameraController : MonoBehaviour
     public LayerMask collisionMask;
     public float cameraRadius = 0.4f;
     public float minDistance = 0.5f;
-    public float rotationSpeed = 90f;
+    public float rotationSpeed = 50f;
 
     private InputSystem_Actions controls;
     private Vector2 lookInput;
