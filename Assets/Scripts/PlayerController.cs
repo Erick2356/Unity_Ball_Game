@@ -3,36 +3,52 @@ using UnityEngine;
 public class PlayerController : MonoBehaviour
 {
     public float speed;
+
+    // Dirección hacia la que avanzas al presionar "arriba" (debe apuntar hacia adentro del laberinto)
+    public Vector3 mazeForwardDirection = new Vector3(-1, 0, 0);
+
     private InputSystem_Actions controls;
     private Rigidbody rb;
     private Vector2 moveInput;
-    
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
+
+    private Vector3 forwardAxis;
+    private Vector3 rightAxis;
+
     void Start()
     {
-        rb=GetComponent<Rigidbody>(); 
+        rb = GetComponent<Rigidbody>();
+        RecalculateAxes();
     }
 
-    // Update is called once per frame
-    void Update()
+    void RecalculateAxes()
     {
-        
+        forwardAxis = mazeForwardDirection.normalized;
+        rightAxis = Vector3.Cross(Vector3.up, forwardAxis).normalized;
     }
+
     void FixedUpdate()
     {
-        Vector3 movement = new Vector3(moveInput.x, 0.0f, moveInput.y);
+        // moveInput.y = arriba/abajo -> avanza/retrocede en la dirección del laberinto
+        // moveInput.x = izquierda/derecha -> se mueve perpendicular (a los lados)
+        Vector3 movement = forwardAxis * moveInput.y + rightAxis * moveInput.x;
         rb.AddForce(movement * speed);
     }
+
     void Awake()
     {
         controls = new InputSystem_Actions();
         controls.Player.Move.performed += ctx => moveInput = ctx.ReadValue<Vector2>();
         controls.Player.Move.canceled += ctx => moveInput = Vector2.zero;
     }
-    void OnEnable(){
+
+    void OnEnable()
+    {
         controls.Enable();
+        RecalculateAxes();
     }
-    void OnDisable(){
+
+    void OnDisable()
+    {
         controls.Disable();
     }
 }
