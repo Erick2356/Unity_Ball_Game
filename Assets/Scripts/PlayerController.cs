@@ -3,9 +3,7 @@ using UnityEngine;
 public class PlayerController : MonoBehaviour
 {
     public float speed;
-
-
-    public Vector3 mazeForwardDirection = new Vector3(-1, 0, 0);
+    public Transform cameraTransform; // arrastra la Main Camera aquí
 
     public AudioClip sonidoChoque;
 
@@ -21,17 +19,22 @@ public class PlayerController : MonoBehaviour
     {
         rb = GetComponent<Rigidbody>();
         audioSource = GetComponent<AudioSource>();
-        RecalculateAxes();
     }
 
     void RecalculateAxes()
     {
-        forwardAxis = mazeForwardDirection.normalized;
-        rightAxis = Vector3.Cross(Vector3.up, forwardAxis).normalized;
+        Vector3 camForward = cameraTransform.forward;
+        camForward.y = 0f;
+        forwardAxis = camForward.normalized;
+
+        Vector3 camRight = cameraTransform.right;
+        camRight.y = 0f;
+        rightAxis = camRight.normalized;
     }
 
     void FixedUpdate()
     {
+        RecalculateAxes(); // la cámara orbita, así que recalculamos cada frame físico
 
         Vector3 movement = forwardAxis * moveInput.y + rightAxis * moveInput.x;
         rb.AddForce(movement * speed);
@@ -55,7 +58,6 @@ public class PlayerController : MonoBehaviour
     void OnEnable()
     {
         controls.Enable();
-        RecalculateAxes();
     }
 
     void OnDisable()

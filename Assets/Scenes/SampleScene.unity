@@ -2557,6 +2557,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: '::'
   player: {fileID: 1392072067}
+  playerDirection: {fileID: 1056492847}
   height: 1.5
   distance: 3
   smoothSpeed: 8
@@ -2565,6 +2566,7 @@ MonoBehaviour:
     m_Bits: 8
   cameraRadius: 0.3
   minDistance: 0.5
+  rotationSpeed: 90
 --- !u!82 &330585549
 AudioSource:
   m_ObjectHideFlags: 0
@@ -8117,6 +8119,37 @@ Transform:
   m_Children: []
   m_Father: {fileID: 951346226}
   m_LocalEulerAnglesHint: {x: 0, y: 90.13, z: 0}
+--- !u!1 &1056492846
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1056492847}
+  m_Layer: 0
+  m_Name: MazeDirection
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1056492847
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1056492846}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1091912328
 GameObject:
   m_ObjectHideFlags: 0
@@ -11001,7 +11034,7 @@ Rigidbody:
   m_ImplicitTensor: 1
   m_UseGravity: 1
   m_IsKinematic: 0
-  m_Interpolate: 0
+  m_Interpolate: 1
   m_Constraints: 0
   m_CollisionDetection: 0
 --- !u!135 &1392072069
@@ -11110,7 +11143,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: '::'
   speed: 8
-  mazeForwardDirection: {x: -1, y: 0, z: 0}
+  cameraTransform: {fileID: 330585546}
   sonidoChoque: {fileID: 8300000, guid: a6f11abfd5a7b3f45830ed7edf191533, type: 3}
 --- !u!114 &1392072074
 MonoBehaviour:
@@ -17718,3 +17751,4 @@ SceneRoots:
   - {fileID: 1392072072}
   - {fileID: 951346226}
   - {fileID: 421807742}
+  - {fileID: 1056492847}

@@ -3,29 +3,52 @@ using UnityEngine;
 public class CameraController : MonoBehaviour
 {
     public GameObject player;
+    public Transform playerDirection; 
     public float height = 1.5f;
     public float distance = 3f;
     public float smoothSpeed = 8f;
     public LayerMask collisionMask;
     public float cameraRadius = 0.4f;
     public float minDistance = 0.5f;
+    public float rotationSpeed = 90f;
 
-    private PlayerController playerController;
+    private InputSystem_Actions controls;
+    private Vector2 lookInput;
+    private float orbitAngle = 0f;
 
-    void Start()
+    void Awake()
     {
-        playerController = player.GetComponent<PlayerController>();
+        controls = new InputSystem_Actions();
+        controls.Player.Look.performed += ctx => lookInput = ctx.ReadValue<Vector2>();
+        controls.Player.Look.canceled += ctx => lookInput = Vector2.zero;
+    }
+
+    void OnEnable()
+    {
+        controls.Enable();
+    }
+
+    void OnDisable()
+    {
+        controls.Disable();
     }
 
     void LateUpdate()
     {
-        Vector3 forward = playerController.mazeForwardDirection.normalized;
+        orbitAngle += lookInput.x * rotationSpeed * Time.deltaTime;
+
+        Vector3 baseForward = playerDirection.forward;
+        baseForward.y = 0f;
+        baseForward.Normalize();
+
+        Quaternion orbitRotation = Quaternion.AngleAxis(orbitAngle, Vector3.up);
+        Vector3 forward = orbitRotation * baseForward;
+
         Vector3 pivotPoint = player.transform.position + Vector3.up * height;
 
         float finalDistance = minDistance;
         int steps = 12;
 
-        // Prueba desde la distancia máxima hacia la mínima, y usa la primera posición libre de paredes
         for (int i = 0; i <= steps; i++)
         {
             float t = (float)i / steps;
