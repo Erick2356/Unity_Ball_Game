@@ -2,15 +2,10 @@ using UnityEngine;
 
 public class Rotador : MonoBehaviour
 {
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
-    {
-        
-    }
+    public float velocidad = 60f;
 
-    // Update is called once per frame
     void Update()
     {
-        transform.Rotate(new Vector3(45, 45, 45) * Time.deltaTime);
+        transform.Rotate(new Vector3(0, velocidad, 0) * Time.deltaTime);
     }
 }

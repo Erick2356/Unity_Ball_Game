@@ -4,11 +4,14 @@ public class PlayerController : MonoBehaviour
 {
     public float speed;
 
-    // Dirección hacia la que avanzas al presionar "arriba" (debe apuntar hacia adentro del laberinto)
+
     public Vector3 mazeForwardDirection = new Vector3(-1, 0, 0);
+
+    public AudioClip sonidoChoque;
 
     private InputSystem_Actions controls;
     private Rigidbody rb;
+    private AudioSource audioSource;
     private Vector2 moveInput;
 
     private Vector3 forwardAxis;
@@ -17,6 +20,7 @@ public class PlayerController : MonoBehaviour
     void Start()
     {
         rb = GetComponent<Rigidbody>();
+        audioSource = GetComponent<AudioSource>();
         RecalculateAxes();
     }
 
@@ -28,10 +32,17 @@ public class PlayerController : MonoBehaviour
 
     void FixedUpdate()
     {
-        // moveInput.y = arriba/abajo -> avanza/retrocede en la dirección del laberinto
-        // moveInput.x = izquierda/derecha -> se mueve perpendicular (a los lados)
+
         Vector3 movement = forwardAxis * moveInput.y + rightAxis * moveInput.x;
         rb.AddForce(movement * speed);
+    }
+
+    void OnCollisionEnter(Collision collision)
+    {
+        if (collision.gameObject.layer == LayerMask.NameToLayer("Walls"))
+        {
+            audioSource.PlayOneShot(sonidoChoque);
+        }
     }
 
     void Awake()
