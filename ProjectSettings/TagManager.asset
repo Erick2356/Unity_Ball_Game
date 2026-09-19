@@ -6,6 +6,7 @@ TagManager:
   tags:
   - Collectible
   - cambioNivel
+  - PlataformaFlot
   layers:
   - Default
   - TransparentFX
