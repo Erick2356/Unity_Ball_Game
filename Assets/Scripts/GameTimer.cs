@@ -5,6 +5,9 @@ public class GameTimer : MonoBehaviour
 {
     public static GameTimer Instance;
 
+    public AudioClip musicaNivel1;
+    private AudioSource musicSource;
+
     private float levelStartTime;
     private float gameStartTime;
     private string currentSceneName;
@@ -24,6 +27,13 @@ public class GameTimer : MonoBehaviour
         gameStartTime = Time.time;
         levelStartTime = Time.time;
         currentSceneName = SceneManager.GetActiveScene().name;
+
+        musicSource = gameObject.AddComponent<AudioSource>();
+        musicSource.loop = true;
+        musicSource.playOnAwake = false;
+        musicSource.volume = 0.5f;
+
+        PlayMusicForScene(currentSceneName);
     }
 
     void OnEnable()
@@ -53,6 +63,19 @@ public class GameTimer : MonoBehaviour
 
         currentSceneName = scene.name;
         levelStartTime = Time.time;
+    }
+    void PlayMusicForScene(string sceneName)
+    {
+        if (sceneName == "Nivel 1")
+        {
+            musicSource.clip = musicaNivel1;
+            musicSource.Play();
+        }
+        else
+        {
+            
+            musicSource.Stop();
+        }
     }
 
     public void RegisterMazeCompleted()
